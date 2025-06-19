@@ -7,11 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Main {
-
+    private final  static String model = "deepseek-r1:7b";
+    private final  static String CSV_File_PATH = "/home/amer/Desktop/protos/auto-form-ai/CSVFile.csv";
+    private final  static String BASE_URL="http://localhost:11434/api/generate";
     public static void main(String[] args) {
-        String model = "deepseek-r1:7b";
-        String csvFilePath = "/home/amer/Desktop/protos/auto-form-ai/CSVFile.csv";
-        String csvContent = readCSVFile(csvFilePath);
+
+        String csvContent = readCSVFile(CSV_File_PATH);
 
         String prompt = "Here is a CSV file:\n" + csvContent + "\n\n" +
                 "Please fill the empty fields in this CSV file as follows: FirsName, LastName, E-mail, Age \n" +
@@ -43,7 +44,7 @@ public class Main {
     private static String sendPromptToLLM(String model, String prompt) {
         String fullResponse = "";
         try {
-            URL url = new URL("http://localhost:11434/api/generate");
+            URL url = new URL(BASE_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
