@@ -15,16 +15,17 @@ public class Main {
         String csvContent = readCSVFile(CSV_File_PATH);
 
         String prompt = "Here is a CSV file:\n" + csvContent + "\n\n" +
-                "Please fill the empty fields in this CSV file as follows: FirsName, LastName, E-mail, Age \n" +
-                "and saved in this CSV file content only.\n" +
-                "- Row 1: John, Doe, john.doe@example.com, 30\n\n" +
-                "- Row 1: Amer, bellil, amer.bellil@example.com, 50\n\n"+
+                "Please fill the empty fields in this CSV file as follows: FirstName, LastName, E-mail, Age \n" +
+                "and added in this CSV file content only.\n" +
+                "- Ahmed, ben ali, ahmed.benAli@gmail.com, 30\n" +
+                "- Amer, bellil, amer.bellil@gmail.com, 50\n"+
                 "Return only the completed CSV content. Do not add any explanations, 'think' steps, or any other text."
         ;
 
-        String fullResponse = sendPromptToLLM(model, prompt).replaceAll("(?s)<think>.*?</think>", "").trim();
+        String fullResponse = sendPromptToLLM(model, prompt);
         System.out.println("LLM Response:\n" + fullResponse);
-        String csvContentToSaved = extractCSV(fullResponse);
+        String response = fullResponse.replaceAll("(?s)<think>.*?</think>", "").trim();
+        String csvContentToSaved = extractCSV(response);
         saveToFile(csvContentToSaved, "/home/amer/Desktop/protos/auto-form-ai/CSVFile.csv");
     }
 
